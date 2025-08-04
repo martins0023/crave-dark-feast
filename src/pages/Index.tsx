@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { FoodCard } from "@/components/FoodCard";
 import { ScrollableCards } from "@/components/ScrollableCards";
 import { FoodGrid } from "@/components/FoodGrid";
+import Navigation from "@/components/Navigation";
 
 // Import all the generated food images
 import heroImage from "@/assets/hero-dish.jpg";
@@ -78,6 +79,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Navigation />
+      
       {/* Header Section */}
       <header className="text-center py-16 px-4">
         <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
