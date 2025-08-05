@@ -9,6 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo-forkful.png";
 
 const Navigation = () => {
   return (
@@ -17,9 +18,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="font-heading font-bold text-xl text-primary">
-              Recipe Masters
-            </a>
+          <img 
+              src={logo} 
+              alt="Elegant gourmet dish with wine glass and bokeh lights"
+              className="w-fit h-fit"
+            />
           </div>
 
           {/* Navigation Menu */}
