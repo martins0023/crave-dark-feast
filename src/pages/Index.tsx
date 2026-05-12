@@ -1,88 +1,33 @@
 import { Button } from "@/components/ui/button";
-import { FoodCard } from "@/components/FoodCard";
 import { ScrollableCards } from "@/components/ScrollableCards";
 import { FoodGrid } from "@/components/FoodGrid";
-import Navigation from "@/components/Navigation";
-
-// Import all the generated food images
+import AIConciergeSection from "@/components/AIConciergeSection";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-dish.jpg";
-import chickenDinner from "@/assets/chicken-dinner.jpg";
-import salmonDish from "@/assets/salmon-dish.jpg";
-import freshSalad from "@/assets/fresh-salad.jpg";
 import macCheese1 from "@/assets/mac-cheese-1.jpg";
-import macCheese2 from "@/assets/mac-cheese-2.jpg";
-import macCheese3 from "@/assets/mac-cheese-3.jpg";
-import beefSteak from "@/assets/beef-steak.jpg";
-import friedChicken from "@/assets/fried-chicken.jpg";
-import fishTacos from "@/assets/fish-tacos.jpg";
-import pastaCarbonara from "@/assets/pasta-carbonara.jpg";
-import bbqRibs from "@/assets/bbq-ribs.jpg";
-import vegetableStirFry from "@/assets/vegetable-stir-fry.jpg";
-import chickenWings from "@/assets/chicken-wings.jpg";
-import beefKebabs from "@/assets/beef-kebabs.jpg";
 import appetizerSpread from "@/assets/appetizer-spread.jpg";
+import { dishes, getDishById } from "@/data/dishes";
 import { ArrowLeft, ArrowRight, ArrowRightIcon } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 const Index = () => {
-  const craveWorthyDishes = [
-    {
-      image: chickenDinner,
-      title: "Juicy Chicken Dinner",
-      description: "Perfectly roasted with herbs and spices"
-    },
-    {
-      image: salmonDish,
-      title: "Spicy Grilled Salmon",
-      description: "Fresh Atlantic salmon with citrus glaze"
-    },
-    {
-      image: freshSalad,
-      title: "Fresh Garden Salad",
-      description: "Crisp vegetables with house dressing"
-    }
-  ];
+  const navigate = useNavigate();
+  const { addItem } = useCart();
+  const goDish = (id: string) => navigate(`/dish/${id}`);
 
-  const exploreMoreDishes = [
-    { image: pastaCarbonara, title: "Pasta Carbonara", description: "Classic Italian comfort food" },
-    { image: bbqRibs, title: "BBQ Ribs", description: "Smoky and tender ribs" },
-    { image: vegetableStirFry, title: "Vegetable Stir Fry", description: "Fresh and healthy option" },
-    { image: chickenWings, title: "Buffalo Wings", description: "Crispy and spicy wings" },
-    { image: beefKebabs, title: "Beef Kebabs", description: "Grilled to perfection" },
-    { image: fishTacos, title: "Fish Tacos", description: "Fresh and zesty flavors" }
-  ];
+  const toCard = (id: string) => {
+    const d = getDishById(id)!;
+    return { id: d.id, image: d.image, title: d.title, description: d.description, price: d.price };
+  };
 
-  const macCheeseVariations = [
-    {
-      image: macCheese1,
-      title: "Classic Mac & Cheese",
-      description: "Traditional comfort food"
-    },
-    {
-      image: macCheese2,
-      title: "Baked Mac & Cheese",
-      description: "With crispy breadcrumb topping"
-    },
-    {
-      image: macCheese3,
-      title: "Truffle Mac & Cheese",
-      description: "Gourmet version with herbs"
-    }
-  ];
-
-  const fanFavorites = [
-    { image: beefSteak, title: "Grilled Steak", description: "Perfectly seasoned beef" },
-    { image: friedChicken, title: "Fried Chicken", description: "Crispy golden perfection" },
-    { image: bbqRibs, title: "BBQ Ribs", description: "Fall-off-the-bone tender" },
-    { image: fishTacos, title: "Fish Tacos", description: "Fresh coastal flavors" },
-    { image: chickenWings, title: "Buffalo Wings", description: "Spicy and satisfying" },
-    { image: pastaCarbonara, title: "Pasta Carbonara", description: "Rich and creamy" }
-  ];
+  const craveWorthyDishes = ["juicy-chicken-dinner", "spicy-grilled-salmon", "fresh-garden-salad"].map(toCard);
+  const exploreMoreDishes = ["pasta-carbonara", "bbq-ribs", "vegetable-stir-fry", "buffalo-wings", "beef-kebabs", "fish-tacos"].map(toCard);
+  const macCheeseVariations = ["classic-mac-cheese", "baked-mac-cheese", "truffle-mac-cheese"].map(toCard);
+  const fanFavorites = ["grilled-steak", "fried-chicken", "bbq-ribs", "fish-tacos", "buffalo-wings", "pasta-carbonara"].map(toCard);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-
-      {/* Header Section */}
+    <div>
       <header className="text-center py-16 px-4">
         <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-primary">
           88 All-Time <span className="text-white">Best Dinner
@@ -92,8 +37,8 @@ const Index = () => {
           Explore 88 of the best dinner recipes perfect with flavor, perfect for
           family dinners and special occasions.
         </p>
-        <Button variant="recipe-primary" size="xl" className="font-normal rounded-full">
-          See Them All
+        <Button variant="recipe-primary" size="xl" className="font-normal rounded-full" onClick={() => navigate("/menu")}>
+          Explore All Recipes
           <ArrowRightIcon className="text-white w-5 h-5" />
         </Button>
       </header>
@@ -101,11 +46,11 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative mb-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="relative rounded-3xl overflow-hidden shadow-elegant">
+          <div className="relative rounded-3xl overflow-hidden shadow-elegant cursor-pointer group" onClick={() => navigate("/menu")}>
             <img
               src={heroImage}
               alt="Elegant gourmet dish with wine glass and bokeh lights"
-              className="w-full h-[400px] md:h-[600px] object-cover"
+              className="w-full h-[400px] md:h-[600px] object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
@@ -145,9 +90,13 @@ const Index = () => {
             cards={craveWorthyDishes}
             cardSize="lg"
             className="px-2"
+            onCardClick={goDish}
           />
         </div>
       </section>
+
+      {/* AI Concierge */}
+      <AIConciergeSection />
 
       {/* Explore More Section */}
       <section className="mb-20 px-4">
@@ -160,6 +109,7 @@ const Index = () => {
             cards={exploreMoreDishes}
             columns={3}
             cardSize="md"
+            onCardClick={goDish}
           />
         </div>
       </section>
@@ -183,7 +133,11 @@ const Index = () => {
                 <li>• Comfort food made effortlessly delicious</li>
                 <li>• Perfect as a side or main course</li>
               </ul>
-              <Button variant="recipe-primary" size="lg" className="font-heading">
+              <Button variant="recipe-primary" size="lg" className="font-heading rounded-full" onClick={() => {
+                addItem(getDishById("truffle-mac-cheese")!);
+                toast.success("Truffle Mac & Cheese added");
+                navigate("/cart");
+              }}>
                 Get Recipe Now
               </Button>
             </div>
@@ -193,6 +147,7 @@ const Index = () => {
                 cards={macCheeseVariations}
                 cardSize="md"
                 className="justify-center lg:justify-start"
+                onCardClick={goDish}
               />
             </div>
           </div>
@@ -210,6 +165,7 @@ const Index = () => {
             cards={fanFavorites}
             columns={3}
             cardSize="md"
+            onCardClick={goDish}
           />
         </div>
       </section>
@@ -225,7 +181,7 @@ const Index = () => {
             Discover all delicious dinner recipes that are sure to make
             full of flavor and loved guaranteed.
           </p>
-          <Button variant="recipe-primary" size="xl" className="font-heading mb-12">
+          <Button variant="recipe-primary" size="xl" className="font-heading mb-12 rounded-full" onClick={() => navigate("/menu")}>
             Discover More Recipes
           </Button>
 
