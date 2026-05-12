@@ -3,20 +3,24 @@ import { cn } from "@/lib/utils";
 
 interface FoodGridProps {
   cards: Array<{
+    id?: string;
     image: string;
     title: string;
     description?: string;
+    price?: number;
   }>;
   className?: string;
   columns?: 2 | 3 | 4;
   cardSize?: "sm" | "md" | "lg";
+  onCardClick?: (id: string) => void;
 }
 
 export const FoodGrid = ({ 
   cards, 
   className, 
   columns = 3,
-  cardSize = "md"
+  cardSize = "md",
+  onCardClick,
 }: FoodGridProps) => {
   const gridClasses = {
     2: "grid-cols-1 md:grid-cols-2",
@@ -42,6 +46,8 @@ export const FoodGrid = ({
           image={card.image}
           title={card.title}
           description={card.description}
+          price={card.price}
+          onClick={card.id && onCardClick ? () => onCardClick(card.id!) : undefined}
           className={cn(
             sizeClasses[cardSize],
             "relative"

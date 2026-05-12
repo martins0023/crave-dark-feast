@@ -3,18 +3,22 @@ import { cn } from "@/lib/utils";
 
 interface ScrollableCardsProps {
   cards: Array<{
+    id?: string;
     image: string;
     title: string;
     description?: string;
+    price?: number;
   }>;
   className?: string;
   cardSize?: "sm" | "md" | "lg";
+  onCardClick?: (id: string) => void;
 }
 
 export const ScrollableCards = ({ 
   cards, 
   className, 
-  cardSize = "md" 
+  cardSize = "md",
+  onCardClick,
 }: ScrollableCardsProps) => {
   const sizeClasses = {
     sm: "w-48 h-48",
@@ -34,6 +38,8 @@ export const ScrollableCards = ({
             image={card.image}
             title={card.title}
             description={card.description}
+            price={card.price}
+            onClick={card.id && onCardClick ? () => onCardClick(card.id!) : undefined}
             className={cn(
               sizeClasses[cardSize],
               "relative"
