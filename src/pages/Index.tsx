@@ -142,7 +142,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div>
+            <div className="min-w-0 w-full overflow-hidden">
               <ScrollableCards
                 cards={macCheeseVariations}
                 cardSize="md"
